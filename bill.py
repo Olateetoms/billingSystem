@@ -331,10 +331,81 @@ class Bill_App:
 
         self.txtarea.insert(END,f"\n Total Bill :\t\t\t\t\{self.Total_bill}")
         self.txtarea.insert(END,f"\n--------------------------------------")
+        self.save_bill()
+                        
+    def save_bill(self):
+        op=messagebox.askyesno("Save bill","Do you want to save?")
+        if op>0:
+            self.bill_data=self.txtarea.get('1.0', END)
+            f1=open("bills/"+str(self.bill_no.get())+".txt","w")
+            f1.write(self.bill_data)
+            f1.close()
+            messagebox.showinfo("Saved",f"Bill no. : {self.bill_no.get()} saved successfully")
+        else:
+            return
+    def find_bill(self):
+        present="no"
+        for i in os.listdir("bills/"):
+            if i.split('.')[0]==self.search_bill.get():
+                f1=open("bills/{i}", "r")
+                self.txtarea.delete('1.0', END)
+                for d in f1:
+                    self.txtarea.insert(END,d)
+                f1.close()
+                present="yes"
+        if present=="no":
+            messagebox.showerror("Error","Invalid Bill no.")
+    def clear_data(self):
+        op=messagebox.askyesno("Clear","Do you want to clear?")
+        if op>0:
+        #====================Variables====
+            self.soap.set(0)
+            self.face_cream.set(0)
+            self.face_wash.set(0)
+            self.hair_spray.set(0)
+            self.hair_gell.set(0)
+            self.body_lotion.set(0)
+            self.hair_cream.set(0)
+
+            self.grains.set(0)
+            self.bread.set(0)
+            self.cereals.set(0)
+            self.food_oil.set(0)
+            self.sugar.set(0)
+            self.beverages.set(0)
+            self.nuts.set(0)
+
+            self.alcohol.set(0)
+            self.cocacola.set(0)
+            self.fanta.set(0)
+            self.juices.set(0)
+            self.wines.set(0)
+            self.sprite.set(0)
+            self.vodkas.set(0)
+
+            self.cosmetic_prices.set("")
+            self.grocery_prices.set("")
+            self.drink_prices.set("")
+
+            self.cosmetic_tax.set("")
+            self.grocery_tax.set("")
+            self.drink_tax.set("")
+
+            self.c_name.set("")
+            self.c_phone.set("")
+            self.bill_no.set("")
+            x=random.randint(1000,9999)
+            self.bill_no.set(str(x))
+            
+            self.search_bill.set("")
+            self.welcome_bill()
+        
+    def Exit_app(self):
+        op=messagebox.askyesno("Exit","Do you want to exit?")
+        if op>0:
+            self.root.destroy()
                         
         
-
-
                 
 root=Tk()
 obj = Bill_App(root)
